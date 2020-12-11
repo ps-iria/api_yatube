@@ -3,7 +3,10 @@ from posts.models import Post, Comment
 
 
 class PostSerializer(serializers.ModelSerializer):
-    author = serializers.CharField(source='author.username', read_only=True)
+    author = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='username'
+    )
 
     class Meta:
         fields = '__all__'
@@ -12,9 +15,13 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-    author = serializers.CharField(source='author.username', read_only=True)
+    post = serializers.IntegerField(source='post_id', required=False)
+    author = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='username'
+    )
 
     class Meta:
         fields = '__all__'
+        read_only_fields = ('author',)
         model = Comment
