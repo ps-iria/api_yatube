@@ -15,7 +15,6 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    post = serializers.IntegerField(source='post_id', required=False)
     author = serializers.SlugRelatedField(
         read_only=True,
         slug_field='username'

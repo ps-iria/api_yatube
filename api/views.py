@@ -7,7 +7,7 @@ from .permissions import IsAuthorOrReadOnly
 from .serializers import PostSerializer, CommentSerializer
 
 
-class PostViewSet(viewsets.ModelViewSet, ):
+class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = (IsAuthenticated, IsAuthorOrReadOnly)
@@ -22,7 +22,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         post = get_object_or_404(Post, pk=self.kwargs.get('post_id'))
-        queryset = post.comments
+        queryset = post.comments.all()
         return queryset
 
     def perform_create(self, serializer):
